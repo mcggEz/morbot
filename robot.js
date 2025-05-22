@@ -18,6 +18,60 @@ shuffle(collegeList);
 
 const randomPick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
+// Filipino name components
+const firstNames = [
+    // ... existing code ...
+];
+
+const middleNames = [
+    // ... existing code ...
+];
+
+const lastNames = [
+    // ... existing code ...
+];
+
+// Domain variations for more realism
+const emailDomains = [
+    process.env.EMAIL_DOMAIN || 'gmail.com'
+];
+
+// Track used emails to ensure uniqueness
+const usedEmails = new Set();
+
+// Function to generate random Filipino name
+function generateFilipinoName() {
+    const firstName = randomPick(firstNames);
+    const middleName = randomPick(middleNames);
+    const lastName = randomPick(lastNames);
+    return `${firstName} ${middleName} ${lastName}`;
+}
+
+// Function to generate realistic Filipino email
+function generateFilipinoEmail(index) {
+    const firstName = randomPick(firstNames).toLowerCase();
+    const lastName = randomPick(lastNames).toLowerCase().replace(/\s+/g, '');
+    const middleInitial = randomPick(middleNames)[0].toLowerCase();
+    
+    // Year components for email
+    const birthYearStart = parseInt(process.env.BIRTH_YEAR_START) || 1998;
+    const birthYearEnd = parseInt(process.env.BIRTH_YEAR_END) || 2006;
+    const birthYear = Math.floor(Math.random() * (birthYearEnd - birthYearStart) + birthYearStart);
+    
+    // Special characters for email variation
+    const specialChars = ['', '.', '_', '-'];
+    const randomChar = randomPick(specialChars);
+    
+    // Email patterns with more professional variations and guaranteed uniqueness
+    const patterns = [
+        // ... existing patterns ...
+    ];
+    
+    const emailPattern = randomPick(patterns);
+    const domain = randomPick(emailDomains);
+    return `${emailPattern}@${domain}`;
+}
+
 async function fillForm(index) {
   try {
     console.log(`🔁 Starting submission #${index + 1}`);
@@ -39,7 +93,7 @@ async function fillForm(index) {
     });
 
     await page.click('div[role="checkbox"]');
-    await page.type('input[type="email"].whsOnd.zHQkBf', `fakeuser${index}@email.com`);
+    await page.type('input[type="email"].whsOnd.zHQkBf', generateFilipinoEmail(index));
     await page.click('div[role="button"]');
     await page.waitForSelector('input[type="text"].whsOnd.zHQkBf', { visible: true });
 

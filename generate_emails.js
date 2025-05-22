@@ -1,3 +1,4 @@
+require('dotenv').config();
 const XLSX = require('xlsx');
 
 // Import the email generation function from robot.js
@@ -16,7 +17,8 @@ const worksheet = XLSX.utils.aoa_to_sheet(emails);
 // Add the worksheet to the workbook
 XLSX.utils.book_append_sheet(workbook, worksheet, "Emails");
 
-// Write the file
-XLSX.writeFile(workbook, "generated_emails.xlsx");
+// Write the file using environment variable for filename
+const outputFileName = process.env.OUTPUT_FILE_NAME || 'generated_emails.xlsx';
+XLSX.writeFile(workbook, outputFileName);
 
-console.log("✅ Excel file with 257 unique emails has been created!"); 
+console.log(`✅ Excel file with 257 unique emails has been created as ${outputFileName}!`); 
